@@ -1,0 +1,26 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Verify Project Files') {
+            steps {
+                sh 'test -f delivery_metrics.py'
+                sh 'test -f prometheus.yml'
+                sh 'test -f alert_rules.yml'
+                sh 'test -f requirements.txt'
+                sh 'test -f Dockerfile'
+                sh 'echo "All delivery monitoring files are present."'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Delivery monitoring CI checks passed!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the console output.'
+        }
+    }
+}
