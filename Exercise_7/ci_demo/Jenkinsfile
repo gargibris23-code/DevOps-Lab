@@ -1,0 +1,42 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Start CI') {
+            steps {
+                echo 'Continuous Integration demo started!'
+            }
+        }
+
+        stage('Verify Code') {
+            steps {
+                echo 'Checking project source files...'
+                sh 'echo "Source verification passed."'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Running automated CI test...'
+                sh 'test 1 -eq 1'
+                echo 'All CI tests passed!'
+            }
+        }
+
+        stage('Complete') {
+            steps {
+                echo 'Exercise 7 CI pipeline completed successfully!'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'CI result: SUCCESS'
+        }
+        failure {
+            echo 'CI result: FAILURE'
+        }
+    }
+}
