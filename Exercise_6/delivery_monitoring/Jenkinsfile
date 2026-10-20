@@ -1,0 +1,35 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Source code is available in the workspace.'
+            }
+        }
+
+        stage('Verify Project Files') {
+            steps {
+                bat 'python --version'
+                bat 'python -m pip install -r requirements.txt'
+                bat 'python -m py_compile delivery_metrics.py'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                bat 'docker build -t delivery-monitoring:latest .'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Delivery monitoring pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the stage logs for details.'
+        }
+    }
+}
