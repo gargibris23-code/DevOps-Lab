@@ -5,11 +5,11 @@ pipeline {
     stages {
         stage('Verify Project Files') {
             steps {
-                sh 'test -f delivery_metrics.py'
-                sh 'test -f prometheus.yml'
-                sh 'test -f alert_rules.yml'
-                sh 'test -f requirements.txt'
-                sh 'test -f Dockerfile'
+                sh 'test -f Exercise_6/delivery_monitoring/delivery_metrics.py'
+                sh 'test -f Exercise_6/delivery_monitoring/prometheus.yml'
+                sh 'test -f Exercise_6/delivery_monitoring/alert_rules.yml'
+                sh 'test -f Exercise_6/delivery_monitoring/requirements.txt'
+                sh 'test -f Exercise_6/delivery_monitoring/Dockerfile'
                 sh 'echo "All delivery monitoring files are present."'
             }
         }
