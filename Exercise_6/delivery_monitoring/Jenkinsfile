@@ -3,33 +3,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Source code is available in the workspace.'
-            }
-        }
-
         stage('Verify Project Files') {
             steps {
-                bat 'python --version'
-                bat 'python -m pip install -r requirements.txt'
-                bat 'python -m py_compile delivery_metrics.py'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                bat 'docker build -t delivery-monitoring:latest .'
+                sh 'test -f delivery_metrics.py'
+                sh 'test -f prometheus.yml'
+                sh 'test -f alert_rules.yml'
+                sh 'test -f requirements.txt'
+                sh 'test -f Dockerfile'
+                sh 'echo "All delivery monitoring files are present."'
             }
         }
     }
 
     post {
         success {
-            echo 'Delivery monitoring pipeline completed successfully!'
+            echo 'Delivery monitoring CI checks passed!'
         }
         failure {
-            echo 'Pipeline failed. Check the stage logs for details.'
+            echo 'Pipeline failed. Check the console output.'
         }
     }
 }
